@@ -11,9 +11,13 @@
 <input type="text" id="studentName" placeholder="학생 이름을 입력하세요">
 <button onclick="markAttendance()">출석 표시</button>
 
-<input type="text" class="programInput" placeholder="프로그램 이름을 입력하세요">
-<input type="text" class="programInput" placeholder="프로그램 이름을 입력하세요">
+<div id="programInputs"> <!-- 새로운 프로그램 입력 필드를 감싸는 컨테이너 -->
+    <input type="text" class="programInput" placeholder="프로그램 이름을 입력하세요">
+    <input type="text" class="programInput" placeholder="프로그램 이름을 입력하세요">
+</div>
+
 <button onclick="addProgram()">프로그램 입력</button>
+<button onclick="addProgramInput()">프로그램 추가</button>
 
 <ul id="attendanceList">
     <!-- 출석 목록이 여기에 추가될 것입니다 -->
@@ -54,6 +58,15 @@ function addProgram() {
     for (let i = 0; i < programInputs.length; i++) {
         programInputs[i].style.display = "inline-block";
     }
+}
+
+function addProgramInput() {
+    var programInputContainer = document.getElementById("programInputs"); // 프로그램 입력 필드들을 감싸는 컨테이너
+    var newProgramInput = document.createElement("input");
+    newProgramInput.type = "text";
+    newProgramInput.className = "programInput";
+    newProgramInput.placeholder = "프로그램 이름을 입력하세요";
+    programInputContainer.appendChild(newProgramInput); // 새로운 프로그램 입력 필드를 추가합니다
 }
 
 </script>

@@ -53,3 +53,28 @@ input[type="text"] {
     margin-right: 10px;
 }
 
+#programInputs {
+    margin-bottom: 20px; /* 하단 여백 추가 */
+}
+
+#programInputs input[type="text"] {
+    display: inline-block; /* 가로로 배치 */
+    margin-right: 10px; /* 입력 필드 사이 간격 조절 */
+    width: 130px; 
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#programInputs button {
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+}
+
+#programInputs button:hover {
+    background-color: #45a049;
+}
