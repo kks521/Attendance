@@ -84,3 +84,40 @@ span.check-time {
     font-size: 1em; /* 폰트 크기 조정 */
     color: #888; /* 색상 변경 */
 }
+
+input[type="checkbox"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: 1px solid #aaa;
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    transition: all 0.3s;
+}
+
+input[type="checkbox"]:checked {
+    background-color: #4CAF50; /* 체크되었을 때 배경색 변경 */
+}
+
+input[type="checkbox"]:checked::after {
+    content: "\2713"; /* 체크된 상태에서 체크 모양을 유니코드로 추가 */
+    display: block;
+    text-align: center;
+    line-height: 20px; /* 아이콘의 세로 가운데 정렬 */
+    color: white; /* 아이콘 색상 */
+}
+
+.removeButton {
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: white;
+    color: black;
+    margin-left: auto;
+}
+
+.removeButton:hover {
+    background-color: #a04545;
+}
