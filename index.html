@@ -67,9 +67,22 @@ function markAttendance() {
             }
         }
 
+
         document.getElementById("attendanceList").appendChild(li);
         document.getElementById("studentName").value = '';
     }
+        // 제거 버튼 추가 
+    var removeButton = document.createElement("button");
+    removeButton.textContent = "x";
+    removeButton.className = "removeButton";
+    removeButton.addEventListener('click', function() {
+        li.remove();
+    });
+
+    li.appendChild(removeButton);
+    document.getElementById("attendanceList").appendChild(li);
+    document.getElementById("studentName").value = '';
+
 }
 
 function addProgram() {
@@ -86,6 +99,16 @@ function addProgramInput() {
     newProgramInput.className = "programInput";
     newProgramInput.placeholder = "프로그램 이름을 입력하세요";
     programInputContainer.appendChild(newProgramInput); // 새로운 프로그램 입력 필드를 추가합니다
+}
+
+function removeStudent(studentName) {
+    var list = document.getElementById("attendanceList");
+    var students = list.getElementsByTagName("li");
+    for (var i = 0; i < students.length; i++) {
+        if (students[i].textContent.includes(studentName)) {
+            list.removeChild(students[i]);
+        }
+    }
 }
 
 </script>
