@@ -94,9 +94,9 @@ function markAttendance() {
             var label = document.createElement("label");
             label.htmlFor = "attendance-" + studentName + "-" + i;
             program = i === 1 ? programName1 : programName2
-            program  === 'null' ? '' : label.appendChild(document.createTextNode(program));
+            program  === '' ? '' : label.appendChild(document.createTextNode(program));
             li.appendChild(label);
-            program  === 'null' ? '' : li.appendChild(checkbox);
+            program  === '' ? '' : li.appendChild(checkbox);
         }   
 
         document.getElementById("attendanceList").appendChild(li);
