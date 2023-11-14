@@ -40,6 +40,25 @@ function markAttendance() {
                 var checkbox = document.createElement("input");
                 checkbox.type = "checkbox";
                 checkbox.id = "attendance-" + studentName + "-" + i;
+
+                // 프로그램 입장한 시간 체크 
+                checkbox.addEventListener('change', function(programName) {
+                    return function() {
+                        if (this.checked) {
+                            var now = new Date();
+                            var timeLabel = document.createElement("span");
+                            timeLabel.textContent = ' - Checked ' + programName + ' at: ' + now.toLocaleTimeString();
+                            timeLabel.classList.add("check-time");
+                            li.appendChild(timeLabel);
+                        } else {
+                            var labels = li.getElementsByTagName('span');
+                            for (let j = 0; j < labels.length; j++) {
+                                li.removeChild(labels[j]);
+                            }
+                        }
+                    };
+                }(programName));
+            
                 var label = document.createElement("label");
                 label.htmlFor = "attendance-" + studentName + "-" + i;
                 label.appendChild(document.createTextNode(programName));

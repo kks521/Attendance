@@ -78,3 +78,9 @@ input[type="text"] {
 #programInputs button:hover {
     background-color: #45a049;
 }
+
+span.check-time {
+    margin-left: 50px; /* 좌측 여백 추가 */
+    font-size: 1em; /* 폰트 크기 조정 */
+    color: #888; /* 색상 변경 */
+}
