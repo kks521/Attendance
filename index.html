@@ -48,16 +48,17 @@ function markAttendance() {
                             var now = new Date();
                             var timeLabel = document.createElement("span");
                             timeLabel.textContent = ' - Checked ' + programName + ' at: ' + now.toLocaleTimeString();
+                            timeLabel.id = "check-time" + programName;
                             timeLabel.classList.add("check-time");
                             li.appendChild(timeLabel);
-                        } else {
-                            var labels = li.getElementsByTagName('span');
-                            for (let j = 0; j < labels.length; j++) {
-                                li.removeChild(labels[j]);
+                        } else {        
+                            var labelToRemove = li.querySelector('#check-time' + programName);
+                            if (labelToRemove) {
+                                li.removeChild(labelToRemove);
                             }
                         }
                     };
-                }(programName));
+                }(programName, checkbox));
             
                 var label = document.createElement("label");
                 label.htmlFor = "attendance-" + studentName + "-" + i;
