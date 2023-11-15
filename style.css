@@ -61,7 +61,7 @@
     #programInputs input[type="text"] {
         display: inline-block; /* 가로로 배치 */
         margin-right: 10px; /* 입력 필드 사이 간격 조절 */
-        width: 130px; 
+        width: 170px; 
         padding: 8px;
         border: 1px solid #ccc;
         border-radius: 5px;
