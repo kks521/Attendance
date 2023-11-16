@@ -42,6 +42,7 @@
     /* Apply space between name and checkboxes */
     input[type="text"] {
         margin-right: 10px;
+
     }
 
     #programInputs {
@@ -101,3 +102,8 @@
     .removeButton:hover {
         background-color: #a04545;
     }
+
+    #studentName {
+        width: 170px
+    }
+
