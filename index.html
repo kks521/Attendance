@@ -1,118 +1,29 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <link rel="stylesheet" href="style.css" />
+    <script src="script.js"></script>
     <title>출석부</title>
-</head>
-<body>
+  </head>
+  <body>
+    <h1>출석부</h1>
 
-<h1>출석부</h1>
+    <input type="text" id="studentName" placeholder="학생 이름을 입력하세요" />
+    <button onclick="markAttendance()">출석 표시</button>
 
-<input type="text" id="studentName" placeholder="학생 이름을 입력하세요">
-<button onclick="markAttendance()">출석 표시</button>
+    <div id="programInputs">
+      <!-- 새로운 프로그램 입력 필드를 감싸는 컨테이너 -->
+    </div>
 
-<div id="programInputs"> <!-- 새로운 프로그램 입력 필드를 감싸는 컨테이너 -->
-    <input type="text" class="programInput" placeholder="프로그램 이름을 입력하세요">
-    <input type="text" class="programInput" placeholder="프로그램 이름을 입력하세요">
-</div>
+    <button class="programButtons" onclick="toggleProgramInputs()">
+      프로그램 입력
+    </button>
+    <button class="programButtons" onclick="addProgramInput()">
+      프로그램 추가
+    </button>
 
-<button class="programButtons" onclick="addProgram()">프로그램 입력</button>
-<button class="programButtons" onclick="addProgramInput()">프로그램 추가</button>
-
-<ul id="attendanceList">
-    <!-- 출석 목록이 여기에 추가될 것입니다 -->
-</ul>
-
-<script>
-function markAttendance() {
-    var studentName = document.getElementById("studentName").value;
-    if (studentName === '') {
-        alert("학생 이름을 입력해주세요!");
-    } else {
-        var li = document.createElement("li");
-        var text = document.createTextNode(studentName);
-        li.appendChild(text);
-
-        var programInputs = document.getElementsByClassName("programInput");
-        for (let i = 0; i < programInputs.length; i++) {
-            var programName = programInputs[i].value;
-            if (programName !== '') {
-                var checkbox = document.createElement("input");
-                checkbox.type = "checkbox";
-                checkbox.id = "attendance-" + studentName + "-" + i;
-
-                // 프로그램 입장한 시간 체크 
-                checkbox.addEventListener('change', function(programName) {
-                    return function() {
-                        if (this.checked) {
-                            var now = new Date();
-                            var timeLabel = document.createElement("span");
-                            timeLabel.textContent = ' - Checked ' + programName + ' at: ' + now.toLocaleTimeString();
-                            timeLabel.id = "check-time" + programName;
-                            timeLabel.classList.add("check-time");
-                            li.appendChild(timeLabel);
-                        } else {        
-                            var labelToRemove = li.querySelector('#check-time' + programName);
-                            if (labelToRemove) {
-                                li.removeChild(labelToRemove);
-                            }
-                        }
-                    };
-                }(programName, checkbox));
-            
-                var label = document.createElement("label");
-                label.htmlFor = "attendance-" + studentName + "-" + i;
-                label.appendChild(document.createTextNode(programName));
-                li.appendChild(label);
-                li.appendChild(checkbox);
-            }
-        }
-
-
-        document.getElementById("attendanceList").appendChild(li);
-        document.getElementById("studentName").value = '';
-    }
-        // 제거 버튼 추가 
-    var removeButton = document.createElement("button");
-    removeButton.textContent = "x";
-    removeButton.className = "removeButton";
-    removeButton.addEventListener('click', function() {
-        li.remove();
-    });
-
-    li.appendChild(removeButton);
-    document.getElementById("attendanceList").appendChild(li);
-    document.getElementById("studentName").value = '';
-
-}
-
-function addProgram() {
-    var programInputs = document.getElementsByClassName("programInput");
-    for (let i = 0; i < programInputs.length; i++) {
-        programInputs[i].style.display = "inline-block";
-    }
-}
-
-function addProgramInput() {
-    var programInputContainer = document.getElementById("programInputs"); // 프로그램 입력 필드들을 감싸는 컨테이너
-    var newProgramInput = document.createElement("input");
-    newProgramInput.type = "text";
-    newProgramInput.className = "programInput";
-    newProgramInput.placeholder = "프로그램 이름을 입력하세요";
-    programInputContainer.appendChild(newProgramInput); // 새로운 프로그램 입력 필드를 추가합니다
-}
-
-function removeStudent(studentName) {
-    var list = document.getElementById("attendanceList");
-    var students = list.getElementsByTagName("li");
-    for (var i = 0; i < students.length; i++) {
-        if (students[i].textContent.includes(studentName)) {
-            list.removeChild(students[i]);
-        }
-    }
-}
-
-</script>
-
-</body>
+    <ul id="attendanceList">
+      <!-- 출석 목록이 여기에 추가될 것입니다 -->
+    </ul>
+  </body>
 </html>
