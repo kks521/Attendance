@@ -2,7 +2,7 @@
 
 // 학생 출석을 표시하는 함수
 function markAttendance() {
-  var studentName = document.getElementById("studentName").value;
+  const studentName = document.getElementById("studentName").value;
 
   if (studentName === "") {
     alert("학생 이름을 입력해주세요!");
@@ -10,7 +10,7 @@ function markAttendance() {
   }
 
   // createStudentListItem 함수 사용
-  var li = createStudentListItem(studentName);
+  const li = createStudentListItem(studentName);
   addProgramsToStudent(li);
 
   document.getElementById("attendanceList").appendChild(li);
@@ -19,8 +19,8 @@ function markAttendance() {
 
 // 학생 목록 항목을 생성하는 함수
 function createStudentListItem(studentName) {
-  var li = document.createElement("li");
-  var text = document.createTextNode(studentName);
+  const li = document.createElement("li");
+  const text = document.createTextNode(studentName);
   li.appendChild(text);
 
   return li;
@@ -28,14 +28,14 @@ function createStudentListItem(studentName) {
 
 // 학생에게 프로그램을 추가하는 함수
 function addProgramsToStudent(li) {
-  var programInputs = document.getElementsByClassName("programInput");
+  const programInputs = document.getElementsByClassName("programInput");
 
   for (let i = 0; i < programInputs.length; i++) {
-    var programName = programInputs[i].value;
+    const programName = programInputs[i].value;
 
     if (programName !== "") {
       // createCheckbox 함수 사용
-      var checkbox = createCheckbox(li, programName, i);
+      const checkbox = createCheckbox(li, programName, i);
       li.appendChild(checkbox);
     }
   }
@@ -46,7 +46,7 @@ function addProgramsToStudent(li) {
 
 // 체크박스를 생성하는 함수
 function createCheckbox(li, programName, index) {
-  var checkbox = document.createElement("input");
+  const checkbox = document.createElement("input");
   checkbox.type = "checkbox";
   checkbox.id = "attendance-" + li.firstChild.textContent + "-" + index;
 
@@ -55,7 +55,7 @@ function createCheckbox(li, programName, index) {
     handleCheckboxChange(this, programName, li);
   });
 
-  var label = document.createElement("label");
+  const label = document.createElement("label");
   label.htmlFor = checkbox.id;
   label.appendChild(document.createTextNode(programName));
 
@@ -67,12 +67,12 @@ function createCheckbox(li, programName, index) {
 
 // 체크박스 상태의 변화를 처리하는 함수
 function handleCheckboxChange(checkbox, programName, li) {
-  var timeLabel = li.querySelector("#check-time" + programName);
+  const timeLabel = li.querySelector("#check-time" + programName);
 
   if (checkbox.checked) {
     // createTimeLabel 함수 사용
-    var now = new Date();
-    timeLabel = createTimeLabel(programName, now);
+    const now = new Date();
+    const timeLabel = createTimeLabel(programName, now);
     li.appendChild(timeLabel);
   } else {
     // removeTimeLabel 함수 사용
@@ -82,7 +82,7 @@ function handleCheckboxChange(checkbox, programName, li) {
 
 // 시간 라벨을 생성하는 함수
 function createTimeLabel(programName, time) {
-  var timeLabel = document.createElement("span");
+  const timeLabel = document.createElement("span");
   timeLabel.textContent =
     " - " + programName + " 체크 시간: " + time.toLocaleTimeString();
   timeLabel.id = "check-time" + programName;
@@ -100,7 +100,7 @@ function removeTimeLabel(li, timeLabel) {
 
 // 제거 버튼을 추가하는 함수
 function addRemoveButton(li) {
-  var removeButton = document.createElement("button");
+  const removeButton = document.createElement("button");
   removeButton.textContent = "x";
   removeButton.className = "removeButton";
   removeButton.addEventListener("click", function () {
@@ -112,15 +112,15 @@ function addRemoveButton(li) {
 
 // 프로그램 입력 필드를 토글하는 함수
 function toggleProgramInputs() {
-  var programInputs = document.getElementById("programInputs");
+  const programInputs = document.getElementById("programInputs");
   programInputs.style.display =
     programInputs.style.display === "none" ? "block" : "none";
 }
 
 // 프로그램 입력 필드를 추가하는 함수
 function addProgramInput() {
-  var programInputContainer = document.getElementById("programInputs");
-  var newProgramInput = document.createElement("input");
+  const programInputContainer = document.getElementById("programInputs");
+  const newProgramInput = document.createElement("input");
   newProgramInput.type = "text";
   newProgramInput.className = "programInput";
   newProgramInput.placeholder = "프로그램 이름을 입력하세요";
