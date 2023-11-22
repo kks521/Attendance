@@ -48,7 +48,7 @@ function addProgramsToStudent(li) {
 function createCheckbox(li, programName, index) {
   const checkbox = document.createElement("input");
   checkbox.type = "checkbox";
-  checkbox.id = "attendance-" + li.firstChild.textContent + "-" + index;
+  checkbox.id = `attendance-${li.firstChild.textContent}-${index}`;
 
   checkbox.addEventListener("change", function () {
     // handleCheckboxChange 함수 사용
@@ -67,7 +67,7 @@ function createCheckbox(li, programName, index) {
 
 // 체크박스 상태의 변화를 처리하는 함수
 function handleCheckboxChange(checkbox, programName, li) {
-  const timeLabel = li.querySelector("#check-time" + programName);
+  const timeLabel = li.querySelector(`#check-time${programName}`);
 
   if (checkbox.checked) {
     // createTimeLabel 함수 사용
@@ -83,9 +83,8 @@ function handleCheckboxChange(checkbox, programName, li) {
 // 시간 라벨을 생성하는 함수
 function createTimeLabel(programName, time) {
   const timeLabel = document.createElement("span");
-  timeLabel.textContent =
-    " - " + programName + " 체크 시간: " + time.toLocaleTimeString();
-  timeLabel.id = "check-time" + programName;
+  timeLabel.textContent = ` - ${programName} 체크 시간: ${time.toLocaleTimeString()}`;
+  timeLabel.id = `check-time${programName}`;
   timeLabel.classList.add("check-time");
 
   return timeLabel;
