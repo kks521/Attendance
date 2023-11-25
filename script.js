@@ -39,6 +39,13 @@ class Student {
   }
 }
 
+// 학생 이름 입력 필드에서 엔터키 입력 감지
+function handleKeyPress(event) {
+  if (event.key === "Enter") {
+    markAttendance();
+  }
+}
+
 // 학생 출석을 표시하는 함수
 function markAttendance() {
   const studentName = document.getElementById("studentName").value.trim();

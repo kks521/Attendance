@@ -8,8 +8,13 @@
   <body>
     <h1>출석부</h1>
 
-    <input type="text" id="studentName" placeholder="학생 이름을 입력하세요" />
-    <button onclick="markAttendance()">출석 표시</button>
+    <input
+      type="text"
+      id="studentName"
+      placeholder="학생 이름을 입력하세요"
+      onkeypress="handleKeyPress(event)"
+    />
+    <button id="attendanceButton" onclick="markAttendance()">출석 표시</button>
 
     <div id="programInputs">
       <!-- 새로운 프로그램 입력 필드를 감싸는 컨테이너 -->
