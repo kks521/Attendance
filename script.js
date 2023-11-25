@@ -4,6 +4,8 @@ class Student {
   constructor(name) {
     this.name = name;
     this.programs = []; //학생이 참가한 프로그램들을 저장하는 array
+    // 출석 이벤트 로그 기록
+    logEvent(`${this.name} attended class`);
   }
 
   // 학생이 참가한 프로그램을 추가하는 메소드
@@ -124,6 +126,8 @@ function handleCheckboxChange(checkbox, student, programIndex, li) {
   const program = student.programs[programIndex];
 
   if (checkbox.checked) {
+    // 프로그램 체크박스가 체크되었을 때 로그에 추가
+    logEvent(`${student.name} attended ${program.name}`);
     // createTimeLabel 함수 사용
     const now = new Date();
     const timeLabel = createTimeLabel(program.name, now);
@@ -184,4 +188,41 @@ function addProgramInput() {
   newProgramInput.className = "programInput";
   newProgramInput.placeholder = "프로그램 이름을 입력하세요";
   programInputContainer.appendChild(newProgramInput);
+}
+
+// 전체 로그를 저장할 배열
+const logArray = [];
+
+// 로그 기록 함수
+function logEvent(event) {
+  const timestamp = new Date().toLocaleString();
+  const logEntry = `${timestamp} - ${event}`;
+  logArray.push(logEntry);
+  updateLogDisplay();
+}
+
+// 전체 로그 조회 함수
+function updateLogDisplay() {
+  const logDisplay = document.getElementById("logDisplay");
+
+  if (logVisible) {
+    logDisplay.style.display = "block";
+  } else {
+    logDisplay.style.display = "none";
+  }
+
+  logDisplay.innerHTML = "<h4>log</h4>";
+
+  logArray.forEach((logEntry, index) => {
+    logDisplay.innerHTML += `<p>${index + 1}. ${logEntry}</p>`;
+  });
+}
+
+// 로그 표시 여부를 나타내는 변수
+let logVisible = true;
+
+// 버튼 클릭 시 로그 표시/숨김 토글
+function toggleLogDisplay() {
+  logVisible = !logVisible;
+  updateLogDisplay();
 }
