@@ -63,6 +63,7 @@ function markAttendance() {
 
   document.getElementById("attendanceList").appendChild(li);
   document.getElementById("studentName").value = "";
+  saveAttendanceToLocalStorage();
 }
 
 // 학생 목록 항목을 생성하는 함수
@@ -191,7 +192,7 @@ function addProgramInput() {
 }
 
 // 전체 로그를 저장할 배열
-const logArray = [];
+let logArray = [];
 
 // 로그 기록 함수
 function logEvent(event) {
@@ -199,6 +200,7 @@ function logEvent(event) {
   const logEntry = `${timestamp} - ${event}`;
   logArray.push(logEntry);
   updateLogDisplay();
+  saveLogToLocalStorage();
 }
 
 // 전체 로그 조회 함수
@@ -224,5 +226,46 @@ let logVisible = true;
 // 버튼 클릭 시 로그 표시/숨김 토글
 function toggleLogDisplay() {
   logVisible = !logVisible;
+  updateLogDisplay();
+}
+
+//로컬 스토리지에 데이터 저장
+function saveAttendanceToLocalStorage() {
+  const attendanceList = document.getElementById("attendanceList").innerHTML;
+  localStorage.setItem("attendanceData", attendanceList);
+}
+// 로그 이벤트를 로컬 스토리지에 저장하는 함수
+function saveLogToLocalStorage() {
+  localStorage.setItem("logData", JSON.stringify(logArray));
+}
+
+// 로그 데이터 로드 함수
+function loadLogFromLocalStorage() {
+  const storedLog = localStorage.getItem("logData");
+  if (storedLog) {
+    logArray = JSON.parse(storedLog);
+    updateLogDisplay();
+  }
+}
+
+//로컬 스토리지에서 데이터 로드
+function loadAttendanceFromLocalStorage() {
+  const storedAttendance = localStorage.getItem("attendanceData");
+  if (storedAttendance) {
+    document.getElementById("attendanceList").innerHTML = storedAttendance;
+  }
+}
+// 페이지가 로드될 때 데이터 로드 함수 호출
+document.addEventListener("DOMContentLoaded", function () {
+  loadAttendanceFromLocalStorage(); // 출석 데이터 로드
+  loadLogFromLocalStorage(); // 로그 데이터 로드
+});
+
+//로컬 스토리지에 저장된 데이터 초기화
+function resetAttendance() {
+  document.getElementById("attendanceList").innerHTML = "";
+  localStorage.removeItem("attendanceData");
+  logArray = []; // 로그 배열 초기화
+  saveLogToLocalStorage(); // 로컬 스토리지에 로그 데이터 저장
   updateLogDisplay();
 }
