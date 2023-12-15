@@ -263,9 +263,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
 //로컬 스토리지에 저장된 데이터 초기화
 function resetAttendance() {
-  document.getElementById("attendanceList").innerHTML = "";
-  localStorage.removeItem("attendanceData");
-  logArray = []; // 로그 배열 초기화
-  saveLogToLocalStorage(); // 로컬 스토리지에 로그 데이터 저장
-  updateLogDisplay();
+  const password = prompt("비밀번호를 입력하세요:");
+  const correctPassword = "0521"; // 비밀번호 설정
+  if (password === correctPassword) {
+    document.getElementById("attendanceList").innerHTML = "";
+    localStorage.removeItem("attendanceData");
+    logArray = []; // 로그 배열 초기화
+    saveLogToLocalStorage(); // 로컬 스토리지에 로그 데이터 저장
+    updateLogDisplay();
+    alert("데이터가 초기화되었습니다.");
+  } else {
+    alert("비밀번호가 틀렸습니다.");
+  }
 }
