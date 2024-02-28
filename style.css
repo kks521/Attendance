@@ -42,7 +42,14 @@ input[type="button"] {
 input[type="text"] {
   margin-right: 10px;
 }
+#memoButton {
+  float: right;
+}
 
+#memoInputs {
+  float: right;
+  resize: none;
+}
 #programInputs {
   margin-bottom: 20px; /* 하단 여백 추가 */
 }

@@ -276,3 +276,9 @@ function resetAttendance() {
     alert("비밀번호가 틀렸습니다.");
   }
 }
+
+function toggleMemoDisplay() {
+  const memoElement = document.getElementById("memoInputs");
+  memoElement.style.display =
+    memoElement.style.display === "none" ? "block" : "none";
+}
