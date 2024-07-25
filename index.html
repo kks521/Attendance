@@ -2,7 +2,7 @@
 <html>
   <head>
     <link rel="stylesheet" href="style.css" />
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
     <title>출석부</title>
   </head>
   <body>
@@ -17,6 +17,7 @@
     <button id="attendanceButton" onclick="markAttendance()">출석 표시</button>
     <button id="memoButton" onclick="toggleMemoDisplay()">메모</button>
     <textarea id="memoInputs" rows="5" , cols="33"> </textarea>
+    <p id="todaysAttendanceCount">Today 0</p>
     <div id="programInputs">
       <!-- 새로운 프로그램 입력 필드를 감싸는 컨테이너 -->
     </div>

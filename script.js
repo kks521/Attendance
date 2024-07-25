@@ -1,5 +1,12 @@
 "use strict";
 
+import firebaseConfig from "./apikey.js";
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
 class Student {
   constructor(name) {
     this.name = name;
@@ -64,6 +71,7 @@ function markAttendance() {
   document.getElementById("attendanceList").appendChild(li);
   document.getElementById("studentName").value = "";
   saveAttendanceToLocalStorage();
+  updateTodaysAttendanceCount();
 }
 
 // 학생 목록 항목을 생성하는 함수
@@ -173,6 +181,7 @@ function addRemoveButton(li, student) {
 function removeStudent(li, student) {
   const list = document.getElementById("attendanceList");
   list.removeChild(li);
+  updateTodaysAttendanceCount();
 }
 // 프로그램 입력 필드를 토글하는 함수
 function toggleProgramInputs() {
@@ -281,4 +290,17 @@ function toggleMemoDisplay() {
   const memoElement = document.getElementById("memoInputs");
   memoElement.style.display =
     memoElement.style.display === "none" ? "block" : "none";
+}
+
+function getTodaysAttendanceCount() {
+  const attendanceList = document.getElementById("attendanceList");
+  const studentItems = attendanceList.getElementsByTagName("li");
+  return studentItems.length;
+}
+
+function updateTodaysAttendanceCount() {
+  const todaysAttendanceCount = getTodaysAttendanceCount();
+  document.getElementById(
+    "todaysAttendanceCount"
+  ).textContent = `Today ${todaysAttendanceCount}`;
 }
