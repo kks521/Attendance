@@ -1,44 +1,75 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
-    <script src="script.js"></script>
     <title>출석부</title>
   </head>
   <body>
     <h1>출석부</h1>
 
-    <input
-      type="text"
-      id="studentName"
-      placeholder="학생 이름을 입력하세요"
-      onkeypress="handleKeyPress(event)"
-    />
-    <button id="attendanceButton" onclick="markAttendance()">출석 표시</button>
-    <button id="memoButton" onclick="toggleMemoDisplay()">메모</button>
-    <textarea id="memoInputs" rows="5" , cols="33"> </textarea>
+    <div>
+      <input
+        type="text"
+        id="studentName"
+        placeholder="학생 이름을 입력하세요"
+        onkeypress="handleKeyPress(event)"
+        aria-label="학생 이름 입력"
+      />
+      <button type="button" id="attendanceButton" onclick="markAttendance()">
+        출석 표시
+      </button>
+    </div>
+
+    <div>
+      <button type="button" id="memoButton" onclick="toggleMemoDisplay()">
+        메모
+      </button>
+      <textarea
+        id="memoInputs"
+        rows="5"
+        cols="33"
+        aria-label="메모 입력"
+        style="display: none"
+      ></textarea>
+    </div>
+
     <p id="todaysAttendanceCount">Today 0</p>
+
     <div id="programInputs">
       <!-- 새로운 프로그램 입력 필드를 감싸는 컨테이너 -->
     </div>
 
-    <button class="programButtons" onclick="toggleProgramInputs()">
-      프로그램 입력
-    </button>
-    <button class="programButtons" onclick="addProgramInput()">
-      프로그램 추가
-    </button>
+    <div>
+      <button
+        type="button"
+        class="programButtons"
+        onclick="toggleProgramInputs()"
+      >
+        프로그램 입력
+      </button>
+      <button type="button" class="programButtons" onclick="addProgramInput()">
+        프로그램 추가
+      </button>
+    </div>
 
     <ul id="attendanceList">
       <!-- 출석 목록이 여기에 추가될 것입니다 -->
     </ul>
+
     <!-- 로그 표시/숨김 토글 버튼 -->
-    <button id="toggleLogButton" onclick="toggleLogDisplay()">
+    <button type="button" id="toggleLogButton" onclick="toggleLogDisplay()">
       로그 표시/숨김
     </button>
 
     <!-- 사용자에게 보여줄 로그를 표시할 div -->
-    <div id="logDisplay"></div>
-    <button id="resetButton" onclick="resetAttendance()">초기화</button>
+    <div id="logDisplay" style="display: none"></div>
+
+    <button type="button" id="resetButton" onclick="resetAttendance()">
+      초기화
+    </button>
+
+    <script src="script.js"></script>
   </body>
 </html>
