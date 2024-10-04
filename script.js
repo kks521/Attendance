@@ -243,7 +243,7 @@ const toggleLogDisplay = () => {
 
 // 로컬 스토리지에 출석 데이터 저장
 const saveAttendanceToLocalStorage = () => {
-  const attendanceList = document.getElementById("attendanceList").innerHTML;
+  const attendanceList = document.getElementById("attendanceListㄴ").innerHTML;
   localStorage.setItem("attendanceData", attendanceList);
 };
 
@@ -276,7 +276,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 학생 이름 입력 필드에 이벤트 리스너 추가
   const studentNameInput = document.getElementById("studentName");
-  studentNameInput.addEventListener("keyup", handleKeyPress);
+  studentNameInput.addEventListener("keydown", handleKeyPress); // 'keyup'에서 'keydown'으로 변경
 });
 
 // 로컬 스토리지에 저장된 데이터 초기화
