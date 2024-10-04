@@ -73,6 +73,9 @@ const markAttendance = () => {
   studentNameInput.value = "";
   saveAttendanceToLocalStorage();
   updateTodaysAttendanceCount();
+
+  // 포커스를 다시 학생 이름 입력 필드로 이동
+  studentNameInput.focus();
 };
 
 // 학생 목록 항목을 생성하는 함수
@@ -273,7 +276,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 학생 이름 입력 필드에 이벤트 리스너 추가
   const studentNameInput = document.getElementById("studentName");
-  studentNameInput.addEventListener("keydown", handleKeyPress);
+  studentNameInput.addEventListener("keyup", handleKeyPress);
 });
 
 // 로컬 스토리지에 저장된 데이터 초기화
