@@ -243,7 +243,7 @@ const toggleLogDisplay = () => {
 
 // 로컬 스토리지에 출석 데이터 저장
 const saveAttendanceToLocalStorage = () => {
-  const attendanceList = document.getElementById("attendanceListㄴ").innerHTML;
+  const attendanceList = document.getElementById("attendanceList").innerHTML;
   localStorage.setItem("attendanceData", attendanceList);
 };
 
