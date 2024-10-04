@@ -25,14 +25,16 @@ class Student {
     if (programIndex >= 0 && programIndex < this.programs.length) {
       const program = this.programs[programIndex];
       program.checked = true;
-      program.checkTime = new Date();
+      program.checkTime = new Date().toISOString();
     }
   }
 
-  // 학생이 참가한 프로그램 목록에서 특정 프로그램 제거하는 메소드
-  removeProgram(programIndex) {
+  // 학생의 특정 프로그램의 출석 취소하는 메소드
+  unmarkProgramAttendance(programIndex) {
     if (programIndex >= 0 && programIndex < this.programs.length) {
-      this.programs.splice(programIndex, 1);
+      const program = this.programs[programIndex];
+      program.checked = false;
+      program.checkTime = null;
     }
   }
 
@@ -81,6 +83,7 @@ const markAttendance = () => {
 // 학생 목록 항목을 생성하는 함수
 const createStudentListItem = (student) => {
   const li = document.createElement("li");
+  li.dataset.name = student.name; // 데이터 속성에 이름 저장
   const text = document.createTextNode(student.name);
   li.appendChild(text);
 
@@ -91,31 +94,42 @@ const createStudentListItem = (student) => {
 
 // 학생에게 프로그램을 추가하는 함수
 const addProgramsToStudent = (li, student) => {
-  const programInputs = document.querySelectorAll(".programInput");
-  let programIdx = 0;
+  if (student.programs.length === 0) {
+    // 새로운 학생일 경우, 프로그램 입력 필드에서 프로그램 추가
+    const programInputs = document.querySelectorAll(".programInput");
+    let programIdx = 0;
 
-  programInputs.forEach((input) => {
-    const programName = input.value.trim();
+    programInputs.forEach((input) => {
+      const programName = input.value.trim();
 
-    if (programName !== "") {
-      // Student 객체에 프로그램 추가
-      student.addProgram(programName);
-      // createCheckbox 함수 사용
-      const checkbox = createCheckbox(li, student, programIdx);
+      if (programName !== "") {
+        // Student 객체에 프로그램 추가
+        student.addProgram(programName);
+        // createCheckbox 함수 사용
+        const checkbox = createCheckbox(li, student, programIdx);
+        li.appendChild(checkbox);
+        programIdx += 1;
+      }
+    });
+  } else {
+    // 로컬 스토리지에서 로드한 경우, student.programs 사용
+    student.programs.forEach((program, index) => {
+      const checkbox = createCheckbox(li, student, index);
       li.appendChild(checkbox);
-      programIdx += 1;
-    }
-  });
+    });
+  }
 
-  // addRemoveButton 함수 사용
+  // 제거 버튼 추가
   addRemoveButton(li, student);
 };
 
 // 체크박스를 생성하는 함수
 const createCheckbox = (li, student, programIndex) => {
+  const program = student.programs[programIndex];
   const checkbox = document.createElement("input");
   checkbox.type = "checkbox";
   checkbox.id = `attendance-${student.name}-${programIndex}`;
+  checkbox.dataset.programName = program.name; // 프로그램 이름 저장
 
   checkbox.addEventListener("change", () => {
     handleCheckboxChange(checkbox, student, programIndex, li);
@@ -123,7 +137,7 @@ const createCheckbox = (li, student, programIndex) => {
 
   const label = document.createElement("label");
   label.htmlFor = checkbox.id;
-  label.textContent = student.programs[programIndex].name;
+  label.textContent = program.name;
 
   li.appendChild(label);
   li.appendChild(checkbox);
@@ -133,36 +147,39 @@ const createCheckbox = (li, student, programIndex) => {
 
 // 체크박스 상태의 변화를 처리하는 함수
 const handleCheckboxChange = (checkbox, student, programIndex, li) => {
-  student.markProgramAttendance(programIndex);
   const program = student.programs[programIndex];
-
   if (checkbox.checked) {
+    student.markProgramAttendance(programIndex);
     // 프로그램 체크박스가 체크되었을 때 로그에 추가
     logEvent(`${student.name} attended ${program.name}`);
-    const now = new Date();
-    const timeLabel = createTimeLabel(program.name, now);
+    const checkTime = new Date(program.checkTime);
+    const timeLabel = createTimeLabel(student.name, program.name, checkTime);
     li.appendChild(timeLabel);
   } else {
+    student.unmarkProgramAttendance(programIndex);
     // 시간 라벨 제거 함수 사용
-    removeTimeLabel(li, program.name);
+    removeTimeLabel(li, student.name, program.name);
   }
 
   saveAttendanceToLocalStorage();
 };
 
 // 시간 라벨을 생성하는 함수
-const createTimeLabel = (programName, time) => {
+const createTimeLabel = (studentName, programName, time) => {
   const timeLabel = document.createElement("span");
   timeLabel.textContent = ` - ${programName} 체크 시간: ${time.toLocaleTimeString()}`;
-  timeLabel.id = `check-time-${programName}`;
+  timeLabel.id = `check-time-${studentName}-${programName}`;
   timeLabel.classList.add("check-time");
+  timeLabel.dataset.time = time.toISOString(); // 시간 데이터를 데이터 속성에 저장
 
   return timeLabel;
 };
 
 // 시간 라벨을 제거하는 함수
-const removeTimeLabel = (li, programName) => {
-  const timeLabel = li.querySelector(`#check-time-${programName}`);
+const removeTimeLabel = (li, studentName, programName) => {
+  const timeLabel = li.querySelector(
+    `#check-time-${studentName}-${programName}`
+  );
 
   if (timeLabel) {
     li.removeChild(timeLabel);
@@ -243,8 +260,37 @@ const toggleLogDisplay = () => {
 
 // 로컬 스토리지에 출석 데이터 저장
 const saveAttendanceToLocalStorage = () => {
-  const attendanceList = document.getElementById("attendanceList").innerHTML;
-  localStorage.setItem("attendanceData", attendanceList);
+  const attendanceList = [];
+
+  const studentItems = document.querySelectorAll("#attendanceList li");
+
+  studentItems.forEach((li) => {
+    const studentName = li.dataset.name;
+    const programs = [];
+
+    const checkboxes = li.querySelectorAll("input[type='checkbox']");
+    checkboxes.forEach((checkbox) => {
+      const programName = checkbox.dataset.programName;
+      const checked = checkbox.checked;
+      const checkTimeLabel = li.querySelector(
+        `#check-time-${studentName}-${programName}`
+      );
+      const checkTime = checkTimeLabel ? checkTimeLabel.dataset.time : null;
+
+      programs.push({
+        name: programName,
+        checked: checked,
+        checkTime: checkTime,
+      });
+    });
+
+    attendanceList.push({
+      name: studentName,
+      programs: programs,
+    });
+  });
+
+  localStorage.setItem("attendanceData", JSON.stringify(attendanceList));
 };
 
 // 로그 이벤트를 로컬 스토리지에 저장하는 함수
@@ -265,8 +311,39 @@ const loadLogFromLocalStorage = () => {
 const loadAttendanceFromLocalStorage = () => {
   const storedAttendance = localStorage.getItem("attendanceData");
   if (storedAttendance) {
-    document.getElementById("attendanceList").innerHTML = storedAttendance;
+    const attendanceListData = JSON.parse(storedAttendance);
+    const attendanceList = document.getElementById("attendanceList");
+    attendanceList.innerHTML = ""; // 기존 리스트 초기화
+
+    attendanceListData.forEach((studentData) => {
+      const student = new Student(studentData.name);
+      student.programs = studentData.programs;
+
+      const li = createStudentListItem(student);
+
+      // 프로그램 체크 상태와 시간 라벨을 복원
+      student.programs.forEach((program, index) => {
+        const checkbox = li.querySelector(
+          `#attendance-${student.name}-${index}`
+        );
+        if (checkbox) {
+          checkbox.checked = program.checked;
+        }
+
+        if (program.checked && program.checkTime) {
+          const timeLabel = createTimeLabel(
+            student.name,
+            program.name,
+            new Date(program.checkTime)
+          );
+          li.appendChild(timeLabel);
+        }
+      });
+
+      attendanceList.appendChild(li);
+    });
   }
+  updateTodaysAttendanceCount(); // 출석 수 업데이트
 };
 
 // 페이지가 로드될 때 데이터 로드 함수 호출
@@ -277,6 +354,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // 학생 이름 입력 필드에 이벤트 리스너 추가
   const studentNameInput = document.getElementById("studentName");
   studentNameInput.addEventListener("keydown", handleKeyPress); // 'keyup'에서 'keydown'으로 변경
+
+  updateTodaysAttendanceCount(); // 출석 수 업데이트
 });
 
 // 로컬 스토리지에 저장된 데이터 초기화
