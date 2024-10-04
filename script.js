@@ -1,5 +1,15 @@
 "use strict";
 
+const defaultProgramsByDay = {
+  0: ["피아노"], // 일요일
+  1: ["탁구", "피아노"], // 월요일
+  2: ["영어", "피아노"], // 화요일
+  3: ["우쿠렐레", "독서지도", "피아노"], // 수요일
+  4: ["영어", "피아노"], // 목요일
+  5: ["음악지도", "피아노"], // 금요일
+  6: [], // 토요일
+};
+
 class Student {
   constructor(name) {
     this.name = name;
@@ -224,6 +234,24 @@ const addProgramInput = () => {
   programInputContainer.appendChild(newProgramInput);
 };
 
+// 현재 요일에 해당하는 프로그램 입력 필드 자동 채우기
+const populateProgramInputs = () => {
+  const programInputContainer = document.getElementById("programInputs");
+  programInputContainer.innerHTML = ""; // 기존 입력 필드 초기화
+
+  const today = new Date().getDay(); // 0 (일요일)부터 6 (토요일)까지의 숫자를 반환
+  const programsForToday = defaultProgramsByDay[today] || [];
+
+  // 프로그램 입력 필드 생성
+  programsForToday.forEach((programName) => {
+    const newProgramInput = document.createElement("input");
+    newProgramInput.type = "text";
+    newProgramInput.className = "programInput";
+    newProgramInput.value = programName; // 기본 프로그램 이름 설정
+    programInputContainer.appendChild(newProgramInput);
+  });
+};
+
 // 전체 로그를 저장할 배열
 let logArray = [];
 
@@ -356,6 +384,7 @@ document.addEventListener("DOMContentLoaded", () => {
   studentNameInput.addEventListener("keydown", handleKeyPress); // 'keyup'에서 'keydown'으로 변경
 
   updateTodaysAttendanceCount(); // 출석 수 업데이트
+  populateProgramInputs(); // 프로그램 입력 필드 자동 채우기
 });
 
 // 로컬 스토리지에 저장된 데이터 초기화
