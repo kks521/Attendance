@@ -47,7 +47,8 @@ class Student {
 
 // 학생 이름 입력 필드에서 엔터키 입력 감지
 const handleKeyPress = (event) => {
-  if (event.key === "Enter") {
+  if (event.key === "Enter" || event.keyCode === 13) {
+    event.preventDefault(); // 기본 동작 방지
     markAttendance();
   }
 };
