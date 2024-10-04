@@ -49,7 +49,9 @@ class Student {
 const handleKeyPress = (event) => {
   if (event.key === "Enter" || event.keyCode === 13) {
     event.preventDefault(); // 기본 동작 방지
+    event.stopPropagation(); // 이벤트 전파 중지
     markAttendance();
+    return false; // 추가적인 이벤트 처리 방지
   }
 };
 
@@ -268,6 +270,10 @@ const loadAttendanceFromLocalStorage = () => {
 document.addEventListener("DOMContentLoaded", () => {
   loadAttendanceFromLocalStorage(); // 출석 데이터 로드
   loadLogFromLocalStorage(); // 로그 데이터 로드
+
+  // 학생 이름 입력 필드에 이벤트 리스너 추가
+  const studentNameInput = document.getElementById("studentName");
+  studentNameInput.addEventListener("keydown", handleKeyPress);
 });
 
 // 로컬 스토리지에 저장된 데이터 초기화
