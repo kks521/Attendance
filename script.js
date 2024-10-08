@@ -383,7 +383,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const studentNameInput = document.getElementById("studentName");
   studentNameInput.addEventListener("keydown", handleKeyPress); // 'keyup'에서 'keydown'으로 변경
 
-  updateTodaysAttendanceCount(); // 출석 수 업데이트
   populateProgramInputs(); // 프로그램 입력 필드 자동 채우기
 });
 
